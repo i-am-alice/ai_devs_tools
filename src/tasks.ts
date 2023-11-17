@@ -81,7 +81,7 @@ const updateTasks = {
                     properties: {
                         id: {
                             type: 'string',
-                            description: 'ID of the task to update, matched from the todo-list'
+                            description: 'Unique task id extracted from the system message by comparing the task mentioned in the user message with the list of task fetched from the todo-list.'
                         },
                         content: {
                             type: 'string',

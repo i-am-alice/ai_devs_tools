@@ -76,6 +76,10 @@ const updateEvents = {
                 items: {
                     type: 'object',
                     properties: {
+                        id: {
+                            type: 'string',
+                            description: 'Unique event id extracted from the system message by comparing the event mentioned in the user message with the list of events fetched from the calendar.'
+                        },
                         name: {
                             type: 'string',
                             description: 'Meaningful, yet ultra concise event name, created based on the user message'
