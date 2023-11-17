@@ -1,5 +1,6 @@
 import {HumanMessage, SystemMessage} from "langchain/schema";
 import {ChatOpenAI} from "langchain/chat_models/openai";
+import {currentDateTime} from "./helpers.ts";
 
 const getTasksSchema = {
     name: 'getTasks',
@@ -10,11 +11,11 @@ const getTasksSchema = {
         properties: {
             from: {
                 type: 'string',
-                description: 'Datetime from which tasks should be fetched. Format: YYYY-MM-DD HH:MM:SS'
+                description: 'Datetime from which tasks should be fetched. Format: YYYY-MM-DD HH:mm:ss'
             },
             to: {
                 type: 'string',
-                description: 'Datetime tasks should be fetched to. Format: YYYY-MM-DD HH:MM:SS'
+                description: 'Datetime tasks should be fetched to. Format: YYYY-MM-DD HH:mm:ss'
             },
             all: {
                 type: 'boolean',
@@ -43,7 +44,7 @@ const addTasks = {
                         },
                         due: {
                             type: 'string',
-                            description: 'Carefully extracted due datetime for this exact task. Always format exactly as YYYY-MM-DD HH:MM:SS'
+                            description: 'Carefully extracted due datetime for this exact task. Always format exactly as YYYY-MM-DD HH:mm:ss'
                         },
                         project: {
                             type: 'string',
@@ -88,7 +89,7 @@ const updateTasks = {
                         },
                         due: {
                             type: 'string',
-                            description: 'Carefully extracted due datetime for this exact task. Always format exactly as YYYY-MM-DD HH:MM:SS'
+                            description: 'Carefully extracted due datetime for this exact task. Always format exactly as YYYY-MM-DD HH:mm:ss'
                         },
                         status: {
                             type: 'boolean',
@@ -130,7 +131,7 @@ const fetchTasks = await chat.invoke([
 
 console.log(fetchTasks?.additional_kwargs?.function_call?.arguments);
 // Umożliwia pobranie listy zadań na podstawie daty i godziny. Domyślnie pobiera zadania na dzień dzisiejszy 00:00 - 23:59.
-// Prawdopodobnie format YYYY-MM-DD HH:MM:SS jest najbardziej bezpieczny i uniwersalny.
+// Prawdopodobnie format YYYY-MM-DD HH:mm:ss jest najbardziej bezpieczny i uniwersalny.
 // {"from":"2023-11-13 00:00:00","to":"2023-11-13 23:59:59","all":false}
 
 const addedTasks = await chat.invoke([
@@ -201,9 +202,3 @@ Oczywiście, aby możliwe było wcześniejsze pobranie zadań, raczej mówimy o 
 
 
 
-
-
-
-function currentDateTime() {
-    return (new Date()).toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', timeZoneName: 'short'})
-}
